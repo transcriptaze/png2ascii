@@ -1,0 +1,10 @@
+{
+    "profile": {
+        "charset": "abcdefghijklmnopqrstuvwxyz",
+        "font": {
+            "size": 12,
+            "dpi": 72,
+            "typeface": "gomonobold"
+        }
+    }
+}
