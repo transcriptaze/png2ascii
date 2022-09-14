@@ -1,6 +1,7 @@
 # TODO
 
 1. Render to PNG
+   - [ ] --width
    - [ ] RGBA
    - [ ] Background/foreground colours
    - [ ] Palette

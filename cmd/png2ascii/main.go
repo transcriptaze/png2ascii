@@ -21,6 +21,7 @@ type options struct {
 	format    string
 	profile   string
 	nosquoosh bool
+	width     png2ascii.Uint32
 	debug     bool
 }
 
@@ -38,6 +39,7 @@ func main() {
 	flag.StringVar(&options.out, "out", options.out, "(optional) output file. Defaults to stdout for text and mp42asc.png for PNG")
 	flag.StringVar(&options.format, "format", options.format, "Format (png or text). Defaults to text")
 	flag.StringVar(&options.profile, "profile", options.profile, "Profile file (defaults to none)")
+	flag.Var(&options.width, "width", "(optional) width of output (in characters). Defaults to width of input image")
 	flag.BoolVar(&options.nosquoosh, "no-squoosh", options.nosquoosh, "Disables the 'squoosh' transform that matches the original aspect ratio")
 	flag.BoolVar(&options.debug, "debug", options.debug, "Displays internal conversion information")
 	flag.Parse()
@@ -96,17 +98,17 @@ func exec(in string, options options) error {
 	}
 
 	if info.IsDir() {
-		return walk(codec, in, options.out, !options.nosquoosh, options.debug)
+		return walk(codec, in, options.out, !options.nosquoosh, options.width, options.debug)
 	}
 
 	if mode := info.Mode(); !mode.IsRegular() {
 		return fmt.Errorf("invalid file mode (%v)", mode)
 	}
 
-	return convert(codec, in, options.out, !options.nosquoosh, options.debug)
+	return convert(codec, in, options.out, !options.nosquoosh, options.width, options.debug)
 }
 
-func walk(codec png2ascii.Codec, dir string, out string, squoosh bool, debug bool) error {
+func walk(codec png2ascii.Codec, dir string, out string, squoosh bool, width png2ascii.Uint32, debug bool) error {
 	f := func(path string, d fs.DirEntry, err error) error {
 		if d.IsDir() {
 			return nil
@@ -120,7 +122,7 @@ func walk(codec png2ascii.Codec, dir string, out string, squoosh bool, debug boo
 			return nil
 		}
 
-		return convert(codec, filepath.Join(dir, path), filepath.Join(out, path), squoosh, debug)
+		return convert(codec, filepath.Join(dir, path), filepath.Join(out, path), squoosh, width, debug)
 	}
 
 	if info, err := os.Stat(out); err != nil && !os.IsNotExist(err) {
@@ -134,7 +136,7 @@ func walk(codec png2ascii.Codec, dir string, out string, squoosh bool, debug boo
 	return fs.WalkDir(os.DirFS(dir), ".", f)
 }
 
-func convert(codec png2ascii.Codec, file string, out string, squoosh bool, debug bool) error {
+func convert(codec png2ascii.Codec, file string, out string, squoosh bool, width png2ascii.Uint32, debug bool) error {
 	if debug {
 		fmt.Printf("  ... converting %v\n", file)
 	}
@@ -142,7 +144,7 @@ func convert(codec png2ascii.Codec, file string, out string, squoosh bool, debug
 	if img, err := png2image(file); err != nil {
 		return err
 	} else {
-		return codec.Convert(img, out, squoosh, debug)
+		return codec.Convert(img, out, squoosh, width, debug)
 	}
 }
 
