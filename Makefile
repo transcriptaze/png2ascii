@@ -17,7 +17,7 @@ build-all: build
 	env GOOS=windows GOARCH=amd64 GOWORK=off go build -trimpath -o dist/$(DIST)/windows/ ./...
 
 debug: build
-	$(CMD) --debug --profile .default.json --format png --width 333 --out ./runtime/reference.png ./images/reference.png
+	$(CMD) --debug --profile .default.json --format png --squoosh width:333 --out ./runtime/reference.png ./images/reference.png
 
 text: build
 	$(CMD) --debug --format text --out ./runtime/mp42asc.txt ./images/reference.png
@@ -28,7 +28,7 @@ png: build
 	open ./runtime/reference.png
 
 nosquoosh: build
-	$(CMD) --debug --no-squoosh --format png --out ./runtime/squooshed.png ./images/squooshed.png
+	$(CMD) --debug --squoosh no --format png --out ./runtime/squooshed.png ./images/squooshed.png
 	open ./runtime/squooshed.png
 
 mp4: build

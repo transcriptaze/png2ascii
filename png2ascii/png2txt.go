@@ -21,7 +21,7 @@ func NewPng2Txt(profile profile.Profile) (Png2Txt, error) {
 	}, nil
 }
 
-func (m Png2Txt) Convert(img image.Image, dest string, squoosh bool, outWidth Uint32, debug bool) error {
+func (m Png2Txt) Convert(img image.Image, dest string, squoosh Squoosh, debug bool) error {
 	if debug {
 		bounds := img.Bounds()
 		w := bounds.Dx()
@@ -36,8 +36,8 @@ func (m Png2Txt) Convert(img image.Image, dest string, squoosh bool, outWidth Ui
 
 	var buffer []string
 
-	if squoosh {
-		squashed := m.squoosh(img, outWidth, debug)
+	if squoosh.Enabled || squoosh.Width != nil {
+		squashed := m.squoosh(img, squoosh, debug)
 		buffer = toAscii(squashed, m.profile.Charset)
 	} else {
 		buffer = toAscii(img, m.profile.Charset)
@@ -58,7 +58,7 @@ func (m Png2Txt) Convert(img image.Image, dest string, squoosh bool, outWidth Ui
 	return nil
 }
 
-func (m Png2Txt) squoosh(img image.Image, outWidth Uint32, debug bool) image.Image {
+func (m Png2Txt) squoosh(img image.Image, squoosh Squoosh, debug bool) image.Image {
 	bounds := img.Bounds()
 	W := bounds.Dx()
 	H := bounds.Dy()
