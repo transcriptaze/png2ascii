@@ -17,7 +17,12 @@ build-all: build
 	env GOOS=windows GOARCH=amd64 GOWORK=off go build -trimpath -o dist/$(DIST)/windows/ ./...
 
 debug: build
-	$(CMD) --debug --profile .default.json --format png --squoosh width:333 --out ./runtime/reference.png ./images/reference.png
+# 	$(CMD) --debug --profile .default.json --format png --squoosh width:200 --out ./runtime/reference.png ./images/reference.png
+# 	open ./runtime/reference.png
+# 	$(CMD) --debug --format text --squoosh width:132 --out ./runtime/mp42asc.txt ./images/reference.png
+# 	cat ./runtime/mp42asc.txt
+	$(CMD) --debug --profile .default.json --format png --squoosh width:400 --out ./runtime/reference.png ./runtime/floating.png
+	open ./runtime/reference.png
 
 text: build
 	$(CMD) --debug --format text --out ./runtime/mp42asc.txt ./images/reference.png

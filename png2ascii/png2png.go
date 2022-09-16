@@ -151,6 +151,17 @@ func (m Png2Png) squoosh(img image.Image, font font.Face, squoosh Squoosh, debug
 	W := bounds.Dx()
 	H := bounds.Dy()
 
+	if squoosh.Width != nil {
+		w := float64(W)
+		h := float64(H)
+		r := h / w
+		w = float64(*squoosh.Width)
+		h = math.Round(r * w)
+
+		W = int(math.Round(w))
+		H = int(math.Round(h))
+	}
+
 	w := fixed.I(W).Mul(fw).Ceil()
 	h := fixed.I(H).Mul(fh).Ceil()
 

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"image"
+	"math"
 	"os"
 
 	"golang.org/x/image/draw"
@@ -63,11 +64,22 @@ func (m Png2Txt) squoosh(img image.Image, squoosh Squoosh, debug bool) image.Ima
 	W := bounds.Dx()
 	H := bounds.Dy()
 
+	if squoosh.Width != nil {
+		w := float64(W)
+		h := float64(H)
+		r := h / w
+		w = float64(*squoosh.Width)
+		h = math.Round(r * w)
+
+		W = int(math.Round(w))
+		H = int(math.Round(h))
+	}
+
 	width := W
 	height := H / 2
 
 	if debug {
-		fmt.Printf("  SQUASH\n")
+		fmt.Printf("  SQUOOSH\n")
 		fmt.Printf("    image.wh    %vx%v\n", W, H)
 		fmt.Printf("    image.ratio %.3f\n", float64(W)/float64(H))
 		fmt.Printf("    squashed.wh %vx%v\n", width, height)

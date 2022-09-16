@@ -1,7 +1,7 @@
 # TODO
 
 1. Render to PNG
-   - [ ] --width
+   - [x] --squoosh width:200
    - [ ] RGBA
    - [ ] Background/foreground colours
    - [ ] Palette
