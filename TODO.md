@@ -2,6 +2,8 @@
 
 1. Render to PNG
    - [x] --squoosh width:200
+         - [ ] Include squoosh in profile
+         - [ ] Override from command line
    - [ ] RGBA
    - [ ] Background/foreground colours
    - [ ] Palette

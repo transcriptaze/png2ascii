@@ -17,20 +17,24 @@ import (
 const VERSION = "v0.0.0"
 
 type options struct {
-	out     string
-	format  string
-	profile string
-	squoosh png2ascii.Squoosh
-	debug   bool
+	out        string
+	format     string
+	profile    string
+	background png2ascii.Colour
+	foreground png2ascii.Colour
+	squoosh    png2ascii.Squoosh
+	debug      bool
 }
 
 func main() {
 	fmt.Printf("png2ascii %v\n", VERSION)
 
 	options := options{
-		out:     "",
-		format:  "text",
-		profile: "",
+		out:        "",
+		format:     "text",
+		profile:    "",
+		background: png2ascii.White,
+		foreground: png2ascii.Black,
 		squoosh: png2ascii.Squoosh{
 			Enabled: true,
 		},
@@ -41,6 +45,8 @@ func main() {
 	flag.StringVar(&options.format, "format", options.format, "Format (png or text). Defaults to text")
 	flag.StringVar(&options.profile, "profile", options.profile, "Profile file (defaults to none)")
 	flag.Var(&options.squoosh, "squoosh", "Prescales the image to preserve aspect ratio")
+	flag.Var(&options.background, "bgcolor", "Background colour. Defaults to white")
+	flag.Var(&options.foreground, "fgcolor", "Foreground colour. Defaults to black")
 	flag.BoolVar(&options.debug, "debug", options.debug, "Displays internal conversion information")
 	flag.Parse()
 
