@@ -12,11 +12,15 @@ var DEFAULT = Profile{
 		Size:     12,
 		DPI:      72,
 	},
+	Squoosh: Squoosh{
+		Enabled: true,
+	},
 }
 
 type Profile struct {
-	Charset string `json:"charset"`
-	Font    Font   `json:"font"`
+	Charset string  `json:"charset"`
+	Font    Font    `json:"font"`
+	Squoosh Squoosh `json:"squoosh"`
 }
 
 type Font struct {

@@ -1,4 +1,4 @@
-package png2ascii
+package profile
 
 import (
 	"fmt"

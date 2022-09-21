@@ -59,7 +59,7 @@ func NewPng2Png(profile profile.Profile) (*Png2Png, error) {
 	}
 }
 
-func (m Png2Png) Convert(img image.Image, dest string, squoosh Squoosh, debug bool) error {
+func (m Png2Png) Convert(img image.Image, dest string, debug bool) error {
 	bounds := img.Bounds()
 	w := bounds.Dx()
 	h := bounds.Dy()
@@ -79,6 +79,8 @@ func (m Png2Png) Convert(img image.Image, dest string, squoosh Squoosh, debug bo
 	fw, _ := m.font.GlyphAdvance('X')
 	width := fixed.I(w).Mul(fw).Ceil()
 	height := fixed.I(h).Mul(fh).Ceil()
+
+	squoosh := m.profile.Squoosh
 
 	if squoosh.Enabled || squoosh.Width != nil {
 		scaled := m.squoosh(img, m.font, squoosh, debug)
@@ -136,7 +138,7 @@ func (m Png2Png) Convert(img image.Image, dest string, squoosh Squoosh, debug bo
 	return nil
 }
 
-func (m Png2Png) squoosh(img image.Image, font font.Face, squoosh Squoosh, debug bool) image.Image {
+func (m Png2Png) squoosh(img image.Image, font font.Face, squoosh profile.Squoosh, debug bool) image.Image {
 	metrics := font.Metrics()
 	fh := metrics.Height
 	fw := fixed.I(0)

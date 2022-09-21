@@ -22,7 +22,8 @@ type options struct {
 	profile    string
 	background png2ascii.Colour
 	foreground png2ascii.Colour
-	squoosh    png2ascii.Squoosh
+	font       string
+	squoosh    profile.Squoosh
 	debug      bool
 }
 
@@ -35,7 +36,8 @@ func main() {
 		profile:    "",
 		background: png2ascii.White,
 		foreground: png2ascii.Black,
-		squoosh: png2ascii.Squoosh{
+		font:       "",
+		squoosh: profile.Squoosh{
 			Enabled: true,
 		},
 		debug: false,
@@ -44,9 +46,10 @@ func main() {
 	flag.StringVar(&options.out, "out", options.out, "(optional) output file. Defaults to stdout for text and mp42asc.png for PNG")
 	flag.StringVar(&options.format, "format", options.format, "Format (png or text). Defaults to text")
 	flag.StringVar(&options.profile, "profile", options.profile, "Profile file (defaults to none)")
-	flag.Var(&options.squoosh, "squoosh", "Prescales the image to preserve aspect ratio")
 	flag.Var(&options.background, "bgcolor", "Background colour. Defaults to white")
 	flag.Var(&options.foreground, "fgcolor", "Foreground colour. Defaults to black")
+	flag.StringVar(&options.font, "font", options.font, "(optional) font file path. Defaults to gomonobold.")
+	flag.Var(&options.squoosh, "squoosh", "Prescales the image to preserve aspect ratio")
 	flag.BoolVar(&options.debug, "debug", options.debug, "Displays internal conversion information")
 	flag.Parse()
 
@@ -104,17 +107,17 @@ func exec(in string, options options) error {
 	}
 
 	if info.IsDir() {
-		return walk(codec, in, options.out, options.squoosh, options.debug)
+		return walk(codec, in, options.out, options.debug)
 	}
 
 	if mode := info.Mode(); !mode.IsRegular() {
 		return fmt.Errorf("invalid file mode (%v)", mode)
 	}
 
-	return convert(codec, in, options.out, options.squoosh, options.debug)
+	return convert(codec, in, options.out, options.debug)
 }
 
-func walk(codec png2ascii.Codec, dir string, out string, squoosh png2ascii.Squoosh, debug bool) error {
+func walk(codec png2ascii.Codec, dir string, out string, debug bool) error {
 	f := func(path string, d fs.DirEntry, err error) error {
 		if d.IsDir() {
 			return nil
@@ -128,7 +131,7 @@ func walk(codec png2ascii.Codec, dir string, out string, squoosh png2ascii.Squoo
 			return nil
 		}
 
-		return convert(codec, filepath.Join(dir, path), filepath.Join(out, path), squoosh, debug)
+		return convert(codec, filepath.Join(dir, path), filepath.Join(out, path), debug)
 	}
 
 	if info, err := os.Stat(out); err != nil && !os.IsNotExist(err) {
@@ -142,7 +145,7 @@ func walk(codec png2ascii.Codec, dir string, out string, squoosh png2ascii.Squoo
 	return fs.WalkDir(os.DirFS(dir), ".", f)
 }
 
-func convert(codec png2ascii.Codec, file string, out string, squoosh png2ascii.Squoosh, debug bool) error {
+func convert(codec png2ascii.Codec, file string, out string, debug bool) error {
 	if debug {
 		fmt.Printf("  ... converting %v\n", file)
 	}
@@ -150,7 +153,7 @@ func convert(codec png2ascii.Codec, file string, out string, squoosh png2ascii.S
 	if img, err := png2image(file); err != nil {
 		return err
 	} else {
-		return codec.Convert(img, out, squoosh, debug)
+		return codec.Convert(img, out, debug)
 	}
 }
 

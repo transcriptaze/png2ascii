@@ -7,7 +7,7 @@ import (
 )
 
 type Codec interface {
-	Convert(img image.Image, dest string, squoosh Squoosh, debug bool) error
+	Convert(img image.Image, dest string, debug bool) error
 }
 
 func toAscii(img image.Image, charset string) []string {
