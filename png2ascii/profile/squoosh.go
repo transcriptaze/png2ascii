@@ -14,7 +14,7 @@ type Squoosh struct {
 
 func (u Squoosh) String() string {
 	if u.Width != nil {
-		return fmt.Sprintf("width:%v", u.Width)
+		return fmt.Sprintf("width:%v", *u.Width)
 	} else if u.Enabled {
 		return "yes"
 	} else {
@@ -28,7 +28,7 @@ func (u *Squoosh) Set(s string) error {
 		u.Enabled = true
 
 	case s == "no":
-		u.Enabled = true
+		u.Enabled = false
 
 	case strings.HasPrefix(s, "width"):
 		if match := regexp.MustCompile("^width:([0-9]+)$").FindStringSubmatch(s); match == nil {

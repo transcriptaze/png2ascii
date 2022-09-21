@@ -23,7 +23,7 @@ type options struct {
 	background png2ascii.Colour
 	foreground png2ascii.Colour
 	font       string
-	squoosh    profile.Squoosh
+	squoosh    string
 	debug      bool
 }
 
@@ -37,10 +37,8 @@ func main() {
 		background: png2ascii.White,
 		foreground: png2ascii.Black,
 		font:       "",
-		squoosh: profile.Squoosh{
-			Enabled: true,
-		},
-		debug: false,
+		squoosh:    "",
+		debug:      false,
 	}
 
 	flag.StringVar(&options.out, "out", options.out, "(optional) output file. Defaults to stdout for text and mp42asc.png for PNG")
@@ -49,7 +47,7 @@ func main() {
 	flag.Var(&options.background, "bgcolor", "Background colour. Defaults to white")
 	flag.Var(&options.foreground, "fgcolor", "Foreground colour. Defaults to black")
 	flag.StringVar(&options.font, "font", options.font, "(optional) font file path. Defaults to gomonobold.")
-	flag.Var(&options.squoosh, "squoosh", "Prescales the image to preserve aspect ratio")
+	flag.StringVar(&options.squoosh, "squoosh", "", "(optional) Prescales the image to preserve aspect ratio. Defaults to the profile 'squoosh'")
 	flag.BoolVar(&options.debug, "debug", options.debug, "Displays internal conversion information")
 	flag.Parse()
 
@@ -77,12 +75,19 @@ func exec(in string, options options) error {
 		}
 	}
 
+	if options.squoosh != "" {
+		if err := profile.Squoosh.Set(options.squoosh); err != nil {
+			return err
+		}
+	}
+
 	if options.debug {
 		fmt.Printf("  PROFILE\n")
 		fmt.Printf("  charset:       %v\n", profile.Charset)
 		fmt.Printf("  font typeface: %v\n", profile.Font.Typeface)
 		fmt.Printf("       size:     %v\n", profile.Font.Size)
 		fmt.Printf("       DPI:      %v\n", profile.Font.DPI)
+		fmt.Printf("  squoosh:       %v\n", profile.Squoosh)
 		fmt.Println()
 	}
 
