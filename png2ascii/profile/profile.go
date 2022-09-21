@@ -23,12 +23,6 @@ type Profile struct {
 	Squoosh Squoosh `json:"squoosh"`
 }
 
-type Font struct {
-	Typeface string  `json:"typeface"`
-	Size     float64 `json:"size"`
-	DPI      float64 `json:"dpi"`
-}
-
 func (p *Profile) Load(file string) error {
 	bytes, err := os.ReadFile(file)
 	if err != nil {

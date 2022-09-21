@@ -41,13 +41,13 @@ func main() {
 		debug:      false,
 	}
 
-	flag.StringVar(&options.out, "out", options.out, "(optional) output file. Defaults to stdout for text and mp42asc.png for PNG")
+	flag.StringVar(&options.out, "out", options.out, "Output file. Defaults to stdout for text and mp42asc.png for PNG")
 	flag.StringVar(&options.format, "format", options.format, "Format (png or text). Defaults to text")
 	flag.StringVar(&options.profile, "profile", options.profile, "Profile file (defaults to none)")
 	flag.Var(&options.background, "bgcolor", "Background colour. Defaults to white")
 	flag.Var(&options.foreground, "fgcolor", "Foreground colour. Defaults to black")
-	flag.StringVar(&options.font, "font", options.font, "(optional) font file path. Defaults to gomonobold.")
-	flag.StringVar(&options.squoosh, "squoosh", "", "(optional) Prescales the image to preserve aspect ratio. Defaults to the profile 'squoosh'")
+	flag.StringVar(&options.font, "font", options.font, "Font spec formatted <typeface|filepath>:size:DPI. Defaults to gomonobold:12:72.")
+	flag.StringVar(&options.squoosh, "squoosh", "", "Prescales the image to preserve aspect ratio. Defaults to the profile 'squoosh'")
 	flag.BoolVar(&options.debug, "debug", options.debug, "Displays internal conversion information")
 	flag.Parse()
 
@@ -77,6 +77,12 @@ func exec(in string, options options) error {
 
 	if options.squoosh != "" {
 		if err := profile.Squoosh.Set(options.squoosh); err != nil {
+			return err
+		}
+	}
+
+	if options.font != "" {
+		if err := profile.Font.Set(options.font); err != nil {
 			return err
 		}
 	}

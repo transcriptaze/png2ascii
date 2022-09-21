@@ -5,10 +5,11 @@
          - [x] Include squoosh in profile
          - [x] Override from command line
    - [ ] Loadable fonts
-         - [ ] Set from command line
+         - [x] Set from command line
          - [ ] Load from file         
-   - [ ] RGBA
    - [ ] Background/foreground colours
+   - [ ] Charset command line option
+   - [ ] RGBA
    - [ ] Palette
 
 2. Convert MP4

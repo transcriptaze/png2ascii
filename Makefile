@@ -8,6 +8,9 @@ build: format
 	mkdir -p bin
 	go build -o bin ./...
 
+test: build
+	go test ./...
+
 build-all: build
 	mkdir -p dist/$(DIST)/windows
 	mkdir -p dist/$(DIST)/darwin
@@ -40,6 +43,10 @@ squoosh: build
 nosquoosh: build
 	$(CMD) --debug --squoosh no --format png --out ./runtime/squooshed.png ./images/squooshed.png
 	open ./runtime/squooshed.png
+
+font: build
+	$(CMD) --debug --profile .default.json --font gomonoitalic:16:100 --format png --out ./runtime/reference.png ./images/reference.png
+	open ./runtime/reference.png
 
 mp4: build
 	rm -rf ./runtime/mp4
