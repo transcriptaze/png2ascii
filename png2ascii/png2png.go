@@ -10,11 +10,6 @@ import (
 
 	"golang.org/x/image/draw"
 	"golang.org/x/image/font"
-	"golang.org/x/image/font/gofont/gomono"
-	"golang.org/x/image/font/gofont/gomonobold"
-	"golang.org/x/image/font/gofont/gomonobolditalic"
-	"golang.org/x/image/font/gofont/gomonoitalic"
-	"golang.org/x/image/font/opentype"
 	"golang.org/x/image/math/fixed"
 
 	"github.com/transcriptaze/png2ascii/png2ascii/profile"
@@ -26,30 +21,7 @@ type Png2Png struct {
 }
 
 func NewPng2Png(profile profile.Profile) (*Png2Png, error) {
-	options := opentype.FaceOptions{
-		Size:    profile.Font.Size,
-		DPI:     profile.Font.DPI,
-		Hinting: font.HintingNone,
-	}
-
-	typeface := gomonobold.TTF
-	switch profile.Font.Typeface {
-	case "gomono":
-		typeface = gomono.TTF
-
-	case "gomonobold":
-		typeface = gomonobold.TTF
-
-	case "gomonoitalic":
-		typeface = gomonoitalic.TTF
-
-	case "gomonobolditalic":
-		typeface = gomonobolditalic.TTF
-	}
-
-	if f, err := opentype.Parse(typeface); err != nil {
-		return nil, err
-	} else if face, err := opentype.NewFace(f, &options); err != nil {
+	if face, err := profile.Font.Load(); err != nil {
 		return nil, err
 	} else {
 		return &Png2Png{

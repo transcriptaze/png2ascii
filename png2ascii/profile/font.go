@@ -2,8 +2,16 @@ package profile
 
 import (
 	"fmt"
+	"os"
 	"strconv"
 	"strings"
+
+	"golang.org/x/image/font"
+	"golang.org/x/image/font/gofont/gomono"
+	"golang.org/x/image/font/gofont/gomonobold"
+	"golang.org/x/image/font/gofont/gomonobolditalic"
+	"golang.org/x/image/font/gofont/gomonoitalic"
+	"golang.org/x/image/font/opentype"
 )
 
 type Font struct {
@@ -44,4 +52,40 @@ func (f *Font) Set(s string) error {
 	}
 
 	return nil
+}
+
+func (f *Font) Load() (font.Face, error) {
+	options := opentype.FaceOptions{
+		Size:    f.Size,
+		DPI:     f.DPI,
+		Hinting: font.HintingNone,
+	}
+
+	var bytes []byte
+	var err error
+
+	switch f.Typeface {
+	case "gomono":
+		bytes = gomono.TTF
+
+	case "gomonobold":
+		bytes = gomonobold.TTF
+
+	case "gomonoitalic":
+		bytes = gomonoitalic.TTF
+
+	case "gomonobolditalic":
+		bytes = gomonobolditalic.TTF
+
+	default:
+		if bytes, err = os.ReadFile(f.Typeface); err != nil {
+			return nil, err
+		}
+	}
+
+	if font, err := opentype.Parse(bytes); err != nil {
+		return nil, err
+	} else {
+		return opentype.NewFace(font, &options)
+	}
 }

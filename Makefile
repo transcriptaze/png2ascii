@@ -1,4 +1,6 @@
 CMD = ./bin/png2ascii
+PROFILE = .profiles/default.json
+
 .PHONY: format
 
 format:
@@ -20,8 +22,8 @@ build-all: build
 	env GOOS=windows GOARCH=amd64 GOWORK=off go build -trimpath -o dist/$(DIST)/windows/ ./...
 
 debug: build
-	$(CMD) --debug --profile .default.json --format png --bgcolor '#ff00ff'   --fgcolor '#00ff00'   --out ./runtime/reference.png ./images/reference.png
-	$(CMD) --debug --profile .default.json --format png --bgcolor '#44444444' --fgcolor '#ff000080' --out ./runtime/reference.png ./images/reference.png
+	$(CMD) --debug --profile $(PROFILE) --format png --bgcolor '#ff00ff'   --fgcolor '#00ff00'   --out ./runtime/reference.png ./images/reference.png
+	$(CMD) --debug --profile $(PROFILE) --format png --bgcolor '#44444444' --fgcolor '#ff000080' --out ./runtime/reference.png ./images/reference.png
 # 	open ./runtime/reference.png
 
 text: build
@@ -29,15 +31,15 @@ text: build
 	cat ./runtime/mp42asc.txt
 
 png: build
-	$(CMD) --debug --profile .default.json --format png --out ./runtime/reference.png ./images/reference.png
+	$(CMD) --debug --profile $(PROFILE) --format png --out ./runtime/reference.png ./images/reference.png
 	open ./runtime/reference.png
 
 squoosh: build
-# 	$(CMD) --debug --profile .default.json --format png --squoosh width:200 --out ./runtime/reference.png ./images/reference.png
+# 	$(CMD) --debug --profile $(PROFILE) --format png --squoosh width:200 --out ./runtime/reference.png ./images/reference.png
 # 	open ./runtime/reference.png
 # 	$(CMD) --debug --format text --squoosh width:132 --out ./runtime/mp42asc.txt ./images/reference.png
 # 	cat ./runtime/mp42asc.txt
-	$(CMD) --debug --profile .default.json --format png --squoosh width:400 --out ./runtime/reference.png ./runtime/floating.png
+	$(CMD) --debug --profile $(PROFILE) --format png --squoosh width:400 --out ./runtime/reference.png ./runtime/floating.png
 	open ./runtime/reference.png
 
 nosquoosh: build
@@ -45,7 +47,8 @@ nosquoosh: build
 	open ./runtime/squooshed.png
 
 font: build
-	$(CMD) --debug --profile .default.json --font gomonoitalic:16:100 --format png --out ./runtime/reference.png ./images/reference.png
+# 	$(CMD) --debug --profile $(PROFILE) --font gomonoitalic:16:100 --format png --out ./runtime/reference.png ./images/reference.png
+	$(CMD) --debug --profile $(PROFILE) --font .fonts/repetition.ttf:48:72 --squoosh width:100 --format png --out ./runtime/reference.png ./images/reference.png
 	open ./runtime/reference.png
 
 mp4: build

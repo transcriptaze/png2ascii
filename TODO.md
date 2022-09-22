@@ -6,7 +6,9 @@
          - [x] Override from command line
    - [ ] Loadable fonts
          - [x] Set from command line
-         - [ ] Load from file         
+         - [x] Load from file         
+         - [ ] Figure out to use e.g. Chinese fonts
+
    - [ ] Background/foreground colours
    - [ ] Charset command line option
    - [ ] RGBA
