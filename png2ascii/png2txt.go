@@ -61,18 +61,26 @@ func (m Png2Txt) Convert(img image.Image, dest string, debug bool) error {
 	return nil
 }
 
+// NTS: assumes a font width/height ratio of 0.5
 func (m Png2Txt) squoosh(img image.Image, squoosh profile.Squoosh, debug bool) image.Image {
 	bounds := img.Bounds()
 	W := bounds.Dx()
 	H := bounds.Dy()
 
-	if squoosh.Width != nil {
+	// calculate the 'squoosh' width and height so that one pixel is one character
+	// and the aspect ratio is (more or less) maintained
+	{
 		w := float64(W)
 		h := float64(H)
 		r := h / w
-		w = float64(*squoosh.Width)
-		h = math.Round(r * w)
 
+		if squoosh.Width != nil {
+			w = float64(*squoosh.Width)
+		} else {
+			w = float64(132)
+		}
+
+		h = math.Round(r * w)
 		W = int(math.Round(w))
 		H = int(math.Round(h))
 	}

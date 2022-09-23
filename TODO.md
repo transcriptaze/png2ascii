@@ -1,23 +1,20 @@
 # TODO
 
 1. Render to PNG
-   - [x] --squoosh width:200
-         - [x] Include squoosh in profile
-         - [x] Override from command line
    - [ ] Loadable fonts
-         - [x] Set from command line
-         - [x] Load from file         
          - [ ] Figure out to use e.g. Chinese fonts
-
+         - [ ] Font metrics
+         - [ ] 'analyse' font
+   - [x] Set default width
+   - [ ] Set PNG output to BestCompression
    - [ ] Background/foreground colours
    - [ ] Charset command line option
    - [ ] RGBA
    - [ ] Palette
+   - [ ] ASCII: get font metrics from profile
 
 2. Convert MP4
    - [x] Script
-   - [ ] Run with BestCompression
-   - [ ] Run ffmpeg command
    - (?) https://github.com/alexdogonin/go-ffmpeg
    - (?) https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_manipulation
 

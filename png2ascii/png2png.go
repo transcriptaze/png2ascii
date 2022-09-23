@@ -113,7 +113,7 @@ func (m Png2Png) Convert(img image.Image, dest string, debug bool) error {
 func (m Png2Png) squoosh(img image.Image, font font.Face, squoosh profile.Squoosh, debug bool) image.Image {
 	metrics := font.Metrics()
 	fh := metrics.Height
-	fw := fixed.I(0)
+	fw := fixed.I(1)
 
 	for _, ch := range m.profile.Charset {
 		if advance, _ := font.GlyphAdvance(ch); advance > fw {
@@ -125,13 +125,20 @@ func (m Png2Png) squoosh(img image.Image, font font.Face, squoosh profile.Squoos
 	W := bounds.Dx()
 	H := bounds.Dy()
 
-	if squoosh.Width != nil {
+	// calculate the 'squoosh' width and height so that one pixel is one character
+	// and the aspect ratio is (more or less) maintained
+	{
 		w := float64(W)
 		h := float64(H)
 		r := h / w
-		w = float64(*squoosh.Width)
-		h = math.Round(r * w)
 
+		if squoosh.Width != nil {
+			w = float64(*squoosh.Width)
+		} else {
+			w = float64(2048 / fw.Round())
+		}
+
+		h = math.Round(r * w)
 		W = int(math.Round(w))
 		H = int(math.Round(h))
 	}
