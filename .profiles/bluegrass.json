@@ -1,0 +1,14 @@
+{
+    "profile": {
+        "charset": "#@80GCLft1i;:,.",
+        "font": {
+            "size": 20,
+            "dpi": 144,
+            "typeface": "gomonobold"
+        },
+        "squoosh": {
+            "enabled": true,
+            "width": 240
+        }
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "profile": {
+        "charset": "abcdefghijklmnopq",
+        "font": {
+            "size": 24,
+            "dpi": 72,
+            "typeface": ".fonts/repetition.ttf"
+        }
+    }
+}

@@ -18,6 +18,10 @@
    - (?) https://github.com/alexdogonin/go-ffmpeg
    - (?) https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_manipulation
 
+3. Package for release
+
+4. Added to transcriptaze.io
+
 ## TODO 
 
 1. Alternative grayscale conversions

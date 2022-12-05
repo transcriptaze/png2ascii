@@ -66,3 +66,12 @@ ancient: build
 floating: build
 	$(CMD)  --debug --format png --out ./runtime/mp42asc.png ./runtime/floating.png
 	open ./runtime/mp42asc.png
+
+bluegrass:
+	$(CMD) --debug --profile .profiles/bluegrass.json --format png --out ./runtime/x.png ./runtime/bluegrass.png 
+	magick identify runtime/bluegrass.png
+	magick identify runtime/x.png
+	mogrify -monitor -resize 1920x1080^ -crop 1920x1080+0+0 runtime/x.png
+	magick identify runtime/x.png
+	open ./runtime/x.png
+
