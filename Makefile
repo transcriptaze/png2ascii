@@ -22,6 +22,9 @@ build-all: build
 	env GOOS=darwin  GOARCH=amd64 GOWORK=off go build -trimpath -o dist/$(DIST)/darwin/  ./...
 	env GOOS=windows GOARCH=amd64 GOWORK=off go build -trimpath -o dist/$(DIST)/windows/ ./...
 
+release: build-all
+	cd dist && tar cvzf $(DIST).tar.gz $(DIST)/*
+
 debug: build
 	$(CMD) --debug --profile $(PROFILE) --format png --bgcolor '#ff00ff'   --fgcolor '#00ff00'   --out ./runtime/reference.png ./images/reference.png
 	$(CMD) --debug --profile $(PROFILE) --format png --bgcolor '#44444444' --fgcolor '#ff000080' --out ./runtime/reference.png ./images/reference.png
