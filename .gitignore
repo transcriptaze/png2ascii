@@ -3,3 +3,4 @@ ascii-camera
 runtime
 bin
 dist
+Makefile.local
