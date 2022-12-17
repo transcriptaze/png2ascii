@@ -2,21 +2,23 @@
 
 # png2ascii
 
-Re-renders a PNG as ASCII art to either as a text file or a PNG.
-
-Included is a script (`mp42ascii` in the _scripts_ folder) that is a rough bash script that:
-1. Uses _ffmpeg_ to extract all the frames of an MP4 as PNG files
-2. Rerenders the PNG files as 'ASCII' PNGs using _png2ascii_
-3. Scales and crops the rerendered PNGs using _ImageMagick_ 
-4. Finally  reassembles the PNGs into an MP4 again (uing _ffmpeg_).
-
-It takes **hours** to process an MP4.
+Renders a PNG as ASCII characters to either a text file or a PNG.
 
 Supported operating systems:
 - Linux
 - MacOS
 - Windows
-- ARM7 _(e.g. RaspberryPi)_
+
+#### mp42ascii
+
+The `mp42ascii.sh` script in the _scripts_ folder is a rough-around-the-edges bash script that:
+1. Uses _ffmpeg_ to extract all the frames of an MP4 as PNG files
+2. Rerenders the PNG files as 'ASCII' PNGs using _png2ascii_
+3. Scales and crops the rerendered PNGs using _ImageMagick_ 
+4. Finally  reassembles the PNGs into an MP4 again (uing _ffmpeg_).
+
+**WARNING**: it takes **hours** (and a significant amount of disk space) to process an MP4.
+
 
 ## Releases
 
@@ -26,9 +28,8 @@ Supported operating systems:
 
 ## Installation
 
-Executables for all the supported operating systems are packaged in the [releases](https://github.com/transcriptaze/pn2ascii/releases). Installation is straightforward - download the archive and extract it to a directory of your choice.
-
-`png2ascii help` will list the available commands and associated options (documented below).
+Executables for all the supported operating systems are packaged in the [releases](https://github.com/transcriptaze/pn2ascii/releases). Installation is straightforward - download the archive, extract it to a directory of your choice and move the executable for
+your platform to a convenient location.
 
 ### Building from source
 
