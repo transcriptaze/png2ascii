@@ -1,4 +1,4 @@
-![build](https://github.com/twystd/mp42asc/workflows/build/badge.svg)
+![build](https://github.com/twystd/png2ascii/workflows/build/badge.svg)
 
 # png2ascii
 
