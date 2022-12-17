@@ -60,7 +60,7 @@ The above commands build the `pn2ascii` executable to the `bin` directory.
 | golang.org/x/image                  | Go extended image processing functions |
 
 
-## png2asci
+## png2ascii
 
 Usage: ```png2ascii <options> <PNG file>```
 
@@ -97,6 +97,24 @@ is:
         }
         "squoosh": {
             "enabled": true
+        }
+    }
+}
+```
+
+A sample profile that loads a font from a file and sets the _squoosh_ width:
+```
+{
+    "profile": {
+        "charset": "abcdefghijklmnopq",
+        "font": {
+            "size": 12,
+            "dpi": 72,
+            "typeface": ".fonts/digital-7.ttf"
+        },
+        "squoosh": {
+            "enabled": true,
+            "width": 240
         }
     }
 }
